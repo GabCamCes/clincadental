@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --color-bg: #f5f5f5;
+    --color-text: #222;
+    --color-primary: #2563eb;
+    --color-card: #fff;
+}
+[data-theme="kids"] {
+  --color-bg: #ffe4fa;
+  --color-text: #ff54ae;
+  --color-primary: #ff9800;
+}
+[data-theme="teens"] {
+  --color-bg: #e8f5e9;
+  --color-text: #333;
+  --color-primary: #00bcd4;
+}
+[data-theme="dark"] {
+  --color-bg: #1a1a1a;
+  --color-text: #fafafa;
+  --color-primary: #60a5fa;
+  --color-card: #232323;
+}
+body {
+  background: var(--color-bg);
+    color: var(--color-text);
+    transition: background 0.3s, color 0.3s;
+}
+.card {
+    background: var(--color-card);
+    color: var(--color-text);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.navbar {
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition: background 0.3s, color 0.3s;
+}
+
+.contraste-alto {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.contraste-alto a, .contraste-alto h1, .contraste-alto h2, .contraste-alto h3, .contraste-alto h4, .contraste-alto h5, .contraste-alto h6, .contraste-alto label {
+  color: #ffff00 !important; /* amarillo brillante para texto importante */
+}
+.contraste-alto button, .contraste-alto input, .contraste-alto select, .contraste-alto textarea {
+  background: #111 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+}
+

@@ -1,0 +1,106 @@
+<script setup>
+import { Link } from '@inertiajs/vue3'
+import BackToDashboard from '@/Components/BackToDashboard.vue'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+
+const props = defineProps({
+    usuarios: Object,
+})
+
+function generoLetra(valor) {
+    return valor === 'M' ? 'Masculino' : valor === 'F' ? 'Femenino' : 'Sin especificar'
+}
+function rolLetra(valor) {
+    if (valor === 'A') return 'Administrador'
+    if (valor === 'M') return 'Médico'
+    if (valor === 'P') return 'Paciente'
+    return 'Sin rol'
+}
+</script>
+
+<template>
+    <AuthenticatedLayout>
+    <BackToDashboard />
+    <div class="max-w-5xl mx-auto mt-10">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">Usuarios</h1>
+            <Link v-if="typeof route === 'function'" :href="route('usuarios.create')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+                Nuevo Usuario
+            </Link>
+        </div>
+
+        <div v-if="usuarios && usuarios.data && usuarios.data.length === 0" class="p-4 text-gray-600">No hay usuarios registrados.</div>
+
+        <table v-else-if="usuarios && usuarios.data && usuarios.data.length > 0" class="w-full bg-white rounded shadow mb-6">
+            <thead>
+                <tr class="bg-gray-100 text-left">
+                    <th class="py-2 px-3">CI</th>
+                    <th class="py-2 px-3">Nombres</th>
+                    <th class="py-2 px-3">Apellidos</th>
+                    <th class="py-2 px-3">Correo</th>
+                    <th class="py-2 px-3">Edad</th>
+                    <th class="py-2 px-3">Género</th>
+                    <th class="py-2 px-3">Rol</th>
+                    <th class="py-2 px-3 text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="usuario in usuarios.data" :key="usuario.id" class="border-b hover:bg-gray-50">
+                    <td class="py-2 px-3">{{ usuario.ci }}</td>
+                    <td class="py-2 px-3">{{ usuario.nombres }}</td>
+                    <td class="py-2 px-3">{{ usuario.apellido_paterno }} {{ usuario.apellido_materno }}</td>
+                    <td class="py-2 px-3">{{ usuario.correo }}</td>
+                    <td class="py-2 px-3">{{ usuario.edad }}</td>
+                    <td class="py-2 px-3">{{ generoLetra(usuario.genero) }}</td>
+                    <td class="py-2 px-3">{{ rolLetra(usuario.tipo_usuario) }}</td>
+                    <td class="py-2 px-3 text-center flex gap-2 justify-center">
+                        <Link v-if="typeof route === 'function'" :href="route('usuarios.edit', usuario.id)" class="text-blue-600 underline">Editar</Link>
+
+                        <!-- Botón eliminar habilitado -->
+                        <form
+                            v-if="typeof route === 'function'"
+                            :action="route('usuarios.destroy', usuario.id)"
+                            method="post"
+                            @submit.prevent="$inertia.delete(route('usuarios.destroy', usuario.id))"
+                            class="inline"
+                        >
+                            <button type="submit" class="text-red-600 underline" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Paginación robusta -->
+        <div v-if="usuarios && usuarios.links && usuarios.links.length > 0" class="flex justify-center gap-2 mt-4">
+            <template v-for="(link, idx) in usuarios.links" :key="idx">
+                <Link
+                    v-if="link.url"
+                    :href="link.url"
+                    :class="[
+                        'px-3 py-1 rounded',
+                        link.active ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-blue-100'
+                    ]"
+                    v-html="link.label"
+                />
+                <span
+                    v-else
+                    :class="[
+                        'px-3 py-1 rounded text-gray-400 select-none',
+                        link.active ? 'bg-blue-600 text-white' : 'bg-gray-100'
+                    ]"
+                    v-html="link.label"
+                />
+            </template>
+        </div>
+    </div>
+    <footer
+        class="mt-auto text-center py-2 bg-gray-100 text-gray-700 dark:bg-[#232323] dark:text-gray-300 border-t border-gray-200 dark:border-gray-800"
+        >
+        <span class="text-sm">
+            Visitas a esta página: <b>{{ $page.props.contador_visitas }}</b>
+        </span>
+    </footer>
+    </AuthenticatedLayout>
+</template>
+

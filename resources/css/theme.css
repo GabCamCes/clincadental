@@ -1,0 +1,90 @@
+/* Estilos base del tema */
+:root {
+  /* Transiciones suaves para el cambio de tema */
+  --transition-theme: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  
+  /* Sombras */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Bordes redondeados */
+  --rounded-sm: 0.125rem;
+  --rounded: 0.25rem;
+  --rounded-md: 0.375rem;
+  --rounded-lg: 0.5rem;
+  --rounded-xl: 0.75rem;
+  --rounded-full: 9999px;
+  
+  /* Tipografía */
+  --font-sans: 'Figtree', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+/* Transiciones suaves para elementos interactivos */
+a, button, input, select, textarea, .transition-theme {
+  transition: var(--transition-theme);
+}
+
+/* Estilos para el modo de alto contraste */
+@media (prefers-contrast: more) {
+  :root {
+    --color-primary: #1a56db;
+    --color-secondary: #4338ca;
+  }
+  
+  button, a, [role="button"], [role="tab"] {
+    border-width: 2px !important;
+  }
+}
+
+/* Mejoras de accesibilidad para el foco */
+a:focus, button:focus, [tabindex="0"]:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Estilos para el tema oscuro */
+[data-theme*="noche"], .dark [data-theme*="noche"] {
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos específicos para el tema de niños */
+[data-theme*="ninos"] {
+  --font-sans: 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', 'Comic Neue', cursive, system-ui, sans-serif;
+}
+
+[data-theme*="ninos"] body {
+  background-image: radial-gradient(circle at 10% 20%, rgba(255, 200, 200, 0.1) 0%, transparent 20%);
+}
+
+[data-theme*="ninos"] .btn-primary {
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos específicos para el tema de jóvenes */
+[data-theme*="jovenes"] {
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+[data-theme*="jovenes"] .btn {
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+/* Asegurar que el texto sea legible en todos los temas */
+h1, h2, h3, h4, h5, h6, p, span, div, a, li, td, th, label, input, textarea, select, button {
+  color: var(--color-text);
+}
+
+/* Estilos para mejorar la legibilidad */
+body {
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}

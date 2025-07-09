@@ -1,0 +1,243 @@
+/*! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Importar fuente Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Variables de tema principales - Nombres compatibles con themeManager.js */
+  --color-primary: #0d9488;      /* Verde azulado profesional */
+  --color-secondary: #0891b2;    /* Azul turquesa */
+  --color-accent: #ec4899;       /* Rosa para elementos destacados */
+  --color-background: #f0fdfa;   /* Fondo claro */
+  --color-surface: #ffffff;      /* Superficie de tarjetas/paneles */
+  --color-text: #1e293b;         /* Color de texto principal */
+  --color-border: #e2e8f0;       /* Color de bordes */
+  --color-error: #ef4444;        /* Color para errores */
+  --color-success: #10b981;      /* Color para éxito */
+  --color-warning: #f59e0b;      /* Color para advertencias */
+  
+  /* Alias para compatibilidad */
+  --color-bg: var(--color-background);
+  --color-card: var(--color-surface);
+  --color-dental-primary: var(--color-primary);
+  --color-dental-secondary: var(--color-secondary);
+  --color-dental-accent: var(--color-accent);
+  --color-dental-light: var(--color-background);
+  --color-dental-dark: #0f172a;
+}
+
+/* Temas alternativos */
+[data-theme="kids"] {
+  --color-bg: #ffe4fa;
+  --color-text: #ff54ae;
+  --color-primary: #ff9800;
+  --color-card: #fff0f9;
+}
+
+[data-theme="teens"] {
+  --color-bg: #e8f5e9;
+  --color-text: #333;
+  --color-primary: #00bcd4;
+  --color-card: #f0f9f9;
+}
+
+[data-theme="dark"] {
+  --color-bg: #0f172a;
+  --color-text: #e2e8f0;
+  --color-primary: #5eead4;
+  --color-card: #1e293b;
+  --color-border: #334155;
+}
+
+/* Estilos base */
+body {
+  transition: background-color 0.3s, color 0.3s;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+}
+
+/* Tipografía */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+h1 { font-size: 1.875rem; line-height: 2.25rem; }
+@media (min-width: 768px) { h1 { font-size: 2.25rem; } }
+
+h2 { font-size: 1.5rem; line-height: 2rem; }
+@media (min-width: 768px) { h2 { font-size: 1.875rem; } }
+
+h3 { font-size: 1.25rem; line-height: 1.75rem; }
+@media (min-width: 768px) { h3 { font-size: 1.5rem; } }
+
+/* Componentes */
+.card {
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: all 0.3s;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+}
+
+.card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.navbar {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition: background-color 0.3s;
+  background: var(--color-card);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Botones */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #0d9488;
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.btn-primary:hover {
+  background-color: #0f766e;
+}
+
+.btn-secondary {
+  background-color: white;
+  color: #0d9488;
+  border: 1px solid #0d9488;
+}
+
+.btn-secondary:hover {
+  background-color: #f0fdfa;
+}
+
+/* Indicadores de estado */
+.availability-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.available {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+[data-theme="dark"] .available {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #86efac;
+}
+
+.unavailable {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+[data-theme="dark"] .unavailable {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #fca5a5;
+}
+
+/* Formularios */
+.form-input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #0d9488;
+  box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: var(--color-text);
+}
+
+/* Mejoras de accesibilidad */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #0d9488, 0 0 0 4px rgba(13, 148, 136, 0.2);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Modo alto contraste */
+.contraste-alto {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.contraste-alto a,
+.contraste-alto h1,
+.contraste-alto h2,
+.contraste-alto h3,
+.contraste-alto h4,
+.contraste-alto h5,
+.contraste-alto h6,
+.contraste-alto label {
+  color: #ffff00 !important;
+}
+
+.contraste-alto button,
+.contraste-alto input,
+.contraste-alto select,
+.contraste-alto textarea {
+  background-color: #111 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+}
+
+/* Efectos visuales */
+.transition-theme {
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.shadow-dental {
+  box-shadow: 0 4px 20px -5px rgba(13, 148, 136, 0.15);
+}
+
+.interactive-card {
+  transition: transform 0.3s;
+}
+
+.interactive-card:hover {
+  transform: translateY(-4px);
+}
+
