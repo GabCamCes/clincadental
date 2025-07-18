@@ -15,14 +15,22 @@ class PagoController extends Controller
     public function index()
     {
         $user = Auth::user();
-        // Asume relación paciente en el modelo User: $user->paciente->id
-        $pacienteId = $user->paciente->id ?? null;
-        $pagos = Pago::with(['venta.paciente.usuario'])
-            ->whereHas('venta', function($query) use ($pacienteId) {
-                $query->where('paciente_id', $pacienteId);
-            })
-            ->orderBy('fecha_pago', 'desc')
-            ->paginate(10);
+
+        if ($user->tipo_usuario === 'A') {
+            // El administrador ve todos los pagos
+            $pagos = Pago::with(['venta.paciente.usuario'])
+                ->orderBy('fecha_pago', 'desc')
+                ->paginate(10);
+        } else {
+            // Paciente: solo sus pagos
+            $pacienteId = $user->paciente->id ?? null;
+            $pagos = Pago::with(['venta.paciente.usuario'])
+                ->whereHas('venta', function ($query) use ($pacienteId) {
+                    $query->where('paciente_id', $pacienteId);
+                })
+                ->orderBy('fecha_pago', 'desc')
+                ->paginate(10);
+        }
 
         return Inertia::render('Pagos/Index', [
             'pagos' => $pagos,
@@ -31,6 +39,9 @@ class PagoController extends Controller
 
     public function create()
     {
+        $user = Auth::user();
+        abort_if($user->tipo_usuario !== 'A', 403);
+
         return Inertia::render('Pagos/Create', [
             'ventas' => Venta::with('paciente.usuario')->get(),
         ]);
@@ -39,14 +50,9 @@ class PagoController extends Controller
     public function store(PagoRequest $request)
     {
         $user = Auth::user();
-        $pacienteId = $user->paciente->id ?? null;
-        // Forzar que el pago sea para el paciente autenticado
+        abort_if($user->tipo_usuario !== 'A', 403);
+
         $data = $request->validated();
-        // Si el modelo Venta está relacionado, asegurarse que la venta pertenezca al paciente
-        $venta = \App\Models\Venta::find($data['venta_id']);
-        if (!$venta || $venta->paciente_id !== $pacienteId) {
-            abort(403);
-        }
         $pago = Pago::create($data);
 
         // Historial
@@ -66,10 +72,7 @@ class PagoController extends Controller
     public function edit(Pago $pago)
     {
         $user = Auth::user();
-        $pacienteId = $user->paciente->id ?? null;
-        if ($pago->venta->paciente_id !== $pacienteId) {
-            abort(403);
-        }
+        abort_if($user->tipo_usuario !== 'A', 403);
         return Inertia::render('Pagos/Edit', [
             'pago' => $pago,
             'ventas' => Venta::with('paciente.usuario')->get(),
@@ -79,10 +82,8 @@ class PagoController extends Controller
     public function update(PagoRequest $request, Pago $pago)
     {
         $user = Auth::user();
-        $pacienteId = $user->paciente->id ?? null;
-        if ($pago->venta->paciente_id !== $pacienteId) {
-            abort(403);
-        }
+        abort_if($user->tipo_usuario !== 'A', 403);
+
         $pago->update($request->validated());
 
         // Historial
@@ -102,9 +103,9 @@ class PagoController extends Controller
     public function show(Pago $pago)
     {
         $user = Auth::user();
-        $pacienteId = $user->paciente->id ?? null;
-        if ($pago->venta->paciente_id !== $pacienteId) {
-            abort(403);
+        if ($user->tipo_usuario === 'P') {
+            $pacienteId = $user->paciente->id ?? null;
+            abort_if($pago->venta->paciente_id !== $pacienteId, 403);
         }
         // Datos para el QR (versión simplificada para presentación)
         $qrData = [
@@ -143,10 +144,8 @@ class PagoController extends Controller
     public function destroy(Pago $pago)
     {
         $user = Auth::user();
-        $pacienteId = $user->paciente->id ?? null;
-        if ($pago->venta->paciente_id !== $pacienteId) {
-            abort(403);
-        }
+        abort_if($user->tipo_usuario !== 'A', 403);
+
         $pago->delete();
 
         // Historial

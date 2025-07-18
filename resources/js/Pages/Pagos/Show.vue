@@ -141,7 +141,7 @@
       </div>
 
       <!-- Botón de acción -->
-      <div class="mt-8 flex justify-end">
+      <div class="mt-8 flex justify-end" v-if="user.tipo_usuario === 'A'">
         <button
           @click="marcarComoPagado"
           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
@@ -157,7 +157,7 @@
 </template>
 
 <script setup>
-import { useForm, router } from '@inertiajs/vue3';
+import { useForm, router, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
@@ -168,6 +168,8 @@ const props = defineProps({
   qr: String,
   qrData: Object
 });
+
+const user = usePage().props.auth.user;
 
 const copiarAlPortapapeles = async (texto) => {
   try {
