@@ -14,9 +14,15 @@ class PagoController extends Controller
 {
     public function index()
     {
-        $pagos = Pago::with([
-            'venta.paciente.usuario'
-        ])->orderBy('fecha_pago', 'desc')->paginate(10);
+        $user = Auth::user();
+        // Asume relación paciente en el modelo User: $user->paciente->id
+        $pacienteId = $user->paciente->id ?? null;
+        $pagos = Pago::with(['venta.paciente.usuario'])
+            ->whereHas('venta', function($query) use ($pacienteId) {
+                $query->where('paciente_id', $pacienteId);
+            })
+            ->orderBy('fecha_pago', 'desc')
+            ->paginate(10);
 
         return Inertia::render('Pagos/Index', [
             'pagos' => $pagos,
@@ -32,7 +38,16 @@ class PagoController extends Controller
 
     public function store(PagoRequest $request)
     {
-        $pago = Pago::create($request->validated());
+        $user = Auth::user();
+        $pacienteId = $user->paciente->id ?? null;
+        // Forzar que el pago sea para el paciente autenticado
+        $data = $request->validated();
+        // Si el modelo Venta está relacionado, asegurarse que la venta pertenezca al paciente
+        $venta = \App\Models\Venta::find($data['venta_id']);
+        if (!$venta || $venta->paciente_id !== $pacienteId) {
+            abort(403);
+        }
+        $pago = Pago::create($data);
 
         // Historial
         HistorialPago::create([
@@ -50,6 +65,11 @@ class PagoController extends Controller
 
     public function edit(Pago $pago)
     {
+        $user = Auth::user();
+        $pacienteId = $user->paciente->id ?? null;
+        if ($pago->venta->paciente_id !== $pacienteId) {
+            abort(403);
+        }
         return Inertia::render('Pagos/Edit', [
             'pago' => $pago,
             'ventas' => Venta::with('paciente.usuario')->get(),
@@ -58,6 +78,11 @@ class PagoController extends Controller
 
     public function update(PagoRequest $request, Pago $pago)
     {
+        $user = Auth::user();
+        $pacienteId = $user->paciente->id ?? null;
+        if ($pago->venta->paciente_id !== $pacienteId) {
+            abort(403);
+        }
         $pago->update($request->validated());
 
         // Historial
@@ -76,6 +101,11 @@ class PagoController extends Controller
 
     public function show(Pago $pago)
     {
+        $user = Auth::user();
+        $pacienteId = $user->paciente->id ?? null;
+        if ($pago->venta->paciente_id !== $pacienteId) {
+            abort(403);
+        }
         // Datos para el QR (versión simplificada para presentación)
         $qrData = [
             'beneficiario' => 'Arte Dental',
@@ -112,6 +142,11 @@ class PagoController extends Controller
 
     public function destroy(Pago $pago)
     {
+        $user = Auth::user();
+        $pacienteId = $user->paciente->id ?? null;
+        if ($pago->venta->paciente_id !== $pacienteId) {
+            abort(403);
+        }
         $pago->delete();
 
         // Historial

@@ -1,4 +1,18 @@
 <script setup>
+
+function translatePaginationLabel(label) {
+  if (!label) return '';
+  if (label.includes('Previous') || label === 'pagination.previous' || label.includes('«')) return 'Página anterior';
+  if (label.includes('Next') || label === 'pagination.next' || label.includes('»')) return 'Página siguiente';
+  return label.replace(/&laquo;|&raquo;/g, '').trim();
+}
+
+function translatePaginationLabel(label) {
+  if (!label) return '';
+  if (label.includes('Previous') || label === 'pagination.previous' || label.includes('«')) return 'Página anterior';
+  if (label.includes('Next') || label === 'pagination.next' || label.includes('»')) return 'Página siguiente';
+  return label.replace(/&laquo;|&raquo;/g, '').trim();
+}
 import { Link } from '@inertiajs/vue3'
 import BackToDashboard from '@/Components/BackToDashboard.vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
@@ -15,9 +29,9 @@ const props = defineProps({ promociones: Object })
             <Link :href="route('promociones.create')" class="bg-blue-600 text-white px-4 py-2 rounded">Nueva Promoción</Link>
         </div>
         <div v-if="promociones && promociones.data && promociones.data.length === 0" class="p-4 text-gray-600">No hay promociones registradas.</div>
-        <table v-else-if="promociones && promociones.data && promociones.data.length > 0" class="w-full bg-white rounded shadow mb-6">
+        <table v-else-if="promociones && promociones.data && promociones.data.length > 0" class="w-full bg-white dark:bg-slate-800 rounded shadow mb-6">
             <thead>
-                <tr class="bg-gray-100 text-left">
+                <tr class="bg-gray-100 dark:bg-slate-700 text-left">
                     <th class="py-2 px-3">Título</th>
                     <th class="py-2 px-3">Tipo</th>
                     <th class="py-2 px-3">% Descuento</th>
@@ -34,9 +48,9 @@ const props = defineProps({ promociones: Object })
                     <td class="py-2 px-3">{{ p.fecha_inicio }}<br>- {{ p.fecha_fin }}</td>
                     <td class="py-2 px-3">{{ p.estado }}</td>
                     <td class="py-2 px-3 text-center flex gap-2 justify-center">
-                        <Link :href="route('promociones.edit', p.id)" class="text-blue-600 underline">Editar</Link>
+                        <Link :href="route('promociones.edit', p.id)" class="btn btn-edit">Editar</Link>
                         <form :action="route('promociones.destroy', p.id)" method="post" @submit.prevent="$inertia.delete(route('promociones.destroy', p.id))" class="inline">
-                            <button type="submit" class="text-red-600 underline" onclick="return confirm('¿Eliminar promoción?')">Eliminar</button>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Eliminar promoción?')">Eliminar</button>
                         </form>
                     </td>
                 </tr>
@@ -48,12 +62,12 @@ const props = defineProps({ promociones: Object })
                     v-if="link.url"
                     :href="link.url"
                     :class="['px-3 py-1 rounded', link.active ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-blue-100']"
-                    v-html="link.label"
+                    v-html="translatePaginationLabel(link.label)"
                 />
                 <span
                     v-else
                     :class="['px-3 py-1 rounded text-gray-400 select-none', link.active ? 'bg-blue-600 text-white' : 'bg-gray-100']"
-                    v-html="link.label"
+                    v-html="translatePaginationLabel(link.label)"
                 />
             </template>
         </div>

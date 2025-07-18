@@ -4,11 +4,11 @@ import { Link, usePage } from '@inertiajs/vue3'
 const user = usePage().props.auth.user
 
 function dashboardRoute() {
-  if (!user) return route('dashboard')
+  if (!user) return route('home')
   if (user.tipo_usuario === 'A') return route('usuario.dashboard')
   if (user.tipo_usuario === 'M') return route('medico.dashboard')
   if (user.tipo_usuario === 'P') return route('paciente.dashboard')
-  return route('dashboard')
+  return route('home')
 }
 </script>
 

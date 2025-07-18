@@ -21,9 +21,9 @@ const props = defineProps({
       No hay ventas registradas.
     </div>
 
-    <table v-else class="w-full bg-white rounded shadow mb-6">
+    <table v-else class="w-full bg-white dark:bg-slate-800 rounded shadow mb-6">
       <thead>
-        <tr class="bg-gray-100 text-left">
+        <tr class="bg-gray-100 dark:bg-slate-700 text-left">
           <th class="py-2 px-3">Fecha</th>
           <th class="py-2 px-3">Paciente</th>
           <th class="py-2 px-3">Total</th>
@@ -38,9 +38,9 @@ const props = defineProps({
           <td class="py-2 px-3">Bs {{ Number(v.total).toFixed(2) }}</td>
           <td class="py-2 px-3">{{ v.metodo_pago }}</td>
           <td class="py-2 px-3 text-center flex gap-2 justify-center">
-            <Link :href="route('ventas.edit', v.id)" class="text-blue-600 underline">Editar</Link>
+            <Link :href="route('ventas.edit', v.id)" class="btn btn-edit">Editar</Link>
             <form :action="route('ventas.destroy', v.id)" method="post" @submit.prevent="$inertia.delete(route('ventas.destroy', v.id))" class="inline">
-              <button type="submit" class="text-red-600 underline">Eliminar</button>
+              <button type="submit" class="btn btn-danger">Eliminar</button>
             </form>
           </td>
         </tr>

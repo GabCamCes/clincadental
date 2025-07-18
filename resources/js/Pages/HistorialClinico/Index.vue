@@ -1,4 +1,10 @@
 <script setup>
+function translatePaginationLabel(label) {
+  if (!label) return '';
+  if (label.includes('Previous') || label === 'pagination.previous' || label.includes('«')) return 'Página anterior';
+  if (label.includes('Next') || label === 'pagination.next' || label.includes('»')) return 'Página siguiente';
+  return label.replace(/&laquo;|&raquo;/g, '').trim();
+}
 import { Link } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import BackToDashboard from '@/Components/BackToDashboard.vue'
@@ -48,7 +54,7 @@ const formatDate = (dateString) => {
     <div class="max-w-5xl mx-auto mt-10 px-4">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <h1 class="text-2xl font-bold text-gray-800">
-          {{ permisos.ver_todo ? 'Historial Clínico' : 'Mi Historial Clínico' }}
+          {{ permisos.ver_todo ? 'Historial Arte Dental' : 'Mi Historial Arte Dental' }}
         </h1>
         
         <Link 
@@ -81,79 +87,67 @@ const formatDate = (dateString) => {
         </p>
       </div>
 
-      <div v-else class="bg-white rounded-lg shadow overflow-hidden mb-6">
+      <div v-else class="w-full bg-white dark:bg-slate-800 rounded shadow mb-6">
         <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-              <tr>
-                <th v-if="permisos.ver_todo" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Paciente
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Fecha
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Médico
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Servicio
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Diagnóstico
-                </th>
-                <th v-if="permisos.ver_todo || permisos.editar" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Acciones
-                </th>
+          <table class="w-full bg-white dark:bg-slate-800 rounded">
+            <thead>
+              <tr class="bg-gray-100 dark:bg-slate-700 text-left">
+                <th v-if="permisos.ver_todo" class="py-2 px-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Paciente</th>
+                <th class="py-2 px-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                <th class="py-2 px-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Médico</th>
+                <th class="py-2 px-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Servicio</th>
+                <th class="py-2 px-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Diagnóstico</th>
+                <th v-if="permisos.ver_todo || permisos.editar" class="py-2 px-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Acciones</th>
               </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="h in historiales.data" :key="h.id" class="hover:bg-gray-50">
-                <td v-if="permisos.ver_todo" class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm font-medium text-gray-900">
+            <tbody>
+              <tr v-for="h in historiales.data" :key="h.id" class="border-b hover:bg-gray-50 dark:hover:bg-slate-700">
+                <td v-if="permisos.ver_todo" class="py-2 px-3">
+                  <div class="text-sm font-medium text-gray-900 dark:text-gray-200">
                     {{ h.cita?.paciente?.usuario?.nombres }} {{ h.cita?.paciente?.usuario?.apellido_paterno }}
                   </div>
-                  <div class="text-sm text-gray-500">
+                  <div class="text-sm text-gray-500 dark:text-gray-400">
                     CI: {{ h.cita?.paciente?.ci || 'N/A' }}
                   </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">
+                <td class="py-2 px-3">
+                  <div class="text-sm text-gray-900 dark:text-gray-200">
                     {{ formatDate(h.fecha_registro) }}
                   </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">
+                <td class="py-2 px-3">
+                  <div class="text-sm text-gray-900 dark:text-gray-200">
                     Dr. {{ h.cita?.medico?.usuario?.nombres }} {{ h.cita?.medico?.usuario?.apellido_paterno }}
                   </div>
-                  <div class="text-sm text-gray-500">
+                  <div class="text-sm text-gray-500 dark:text-gray-400">
                     {{ h.cita?.medico?.especialidad || 'General' }}
                   </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                <td class="py-2 px-3">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                     {{ h.cita?.servicio?.nombre || 'Consulta' }}
                   </span>
                 </td>
-                <td class="px-6 py-4">
-                  <div class="text-sm text-gray-900 font-medium">
+                <td class="py-2 px-3">
+                  <div class="text-sm text-gray-900 font-medium dark:text-gray-200">
                     {{ h.diagnostico || 'Sin diagnóstico registrado' }}
                   </div>
-                  <div v-if="h.tratamiento" class="text-sm text-gray-500 mt-1">
+                  <div v-if="h.tratamiento" class="text-sm text-gray-500 mt-1 dark:text-gray-400">
                     <span class="font-medium">Tratamiento:</span> {{ h.tratamiento }}
                   </div>
                 </td>
-                <td v-if="permisos.ver_todo || permisos.editar" class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <td v-if="permisos.ver_todo || permisos.editar" class="py-2 px-3 text-right">
                   <div class="flex justify-end space-x-2">
                     <Link 
                       :href="route('historial-clinico.edit', h.id)" 
-                      class="text-indigo-600 hover:text-indigo-900 mr-3"
+                      class="btn btn-edit"
                       v-if="permisos.editar"
                     >
                       Editar
                     </Link>
                     <button 
                       @click="confirmDelete(h.id)"
-                      class="text-red-600 hover:text-red-900"
+                      class="btn btn-danger"
                       v-if="permisos.editar"
                     >
                       Eliminar
@@ -173,18 +167,26 @@ const formatDate = (dateString) => {
         </div>
       </div>
     <!-- Paginación -->
-    <div v-if="historiales.link && Array.isArray(historiales.links) && historiales.links.length > 0" class="flex justify-center gap-2">
-      <Link
-        v-for="link in historiales.link"
-        :key="link.label"
-        v-if="link.url !== null && typeof link.url !== 'undefined'"
-        :href="link.url"
-        :class="[
-          'px-3 py-1 rounded',
-          link.active ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-green-100'
-        ]"
-        v-html="link.label"
-      />
+    <div v-if="historiales.links && Array.isArray(historiales.links) && historiales.links.length > 0" class="flex justify-center gap-2 mt-4">
+      <template v-for="(link, idx) in historiales.links" :key="idx">
+        <Link
+          v-if="link.url"
+          :href="link.url"
+          :class="[
+            'px-3 py-1 rounded',
+            link.active ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-200 hover:bg-blue-200 dark:hover:bg-slate-600'
+          ]"
+          v-html="translatePaginationLabel(link.label)"
+        />
+        <span
+          v-else
+          :class="[
+            'px-3 py-1 rounded text-gray-400 select-none',
+            link.active ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-slate-700 dark:text-gray-200'
+          ]"
+          v-html="translatePaginationLabel(link.label)"
+        />
+      </template>
     </div>
   </div>
   <footer

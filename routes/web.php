@@ -38,7 +38,6 @@ Route::get('/', function () {
 })->name('home');
 
 //Route::get('/pagos/{pago}', [PagoController::class, 'show'])->name('pagos.show');
-Route::resource('pagos', PagoController::class);
 
 
 Route::get('/pagos/{pago}/qr', [\App\Http\Controllers\PagoController::class, 'showQr'])
@@ -85,6 +84,10 @@ Route::middleware(['auth', 'checkrole:P'])->group(function () {
     Route::get('/paciente', function () {
         return Inertia::render('Pacientes/Dashboard');
     })->name('paciente.dashboard');
+
+    // Pagos: solo el paciente autenticado puede ver/gestionar sus pagos
+    Route::resource('pagos', PagoController::class)->only(['index', 'show', 'create', 'store']);
+    // Si deseas permitir editar/eliminar pagos propios, agrega 'edit', 'update', 'destroy' al array
 });
 Route::middleware(['auth', 'checkrole:M'])->group(function () {
     Route::get('/medico', function () {

@@ -14,18 +14,34 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Poppins', 'Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                primary: 'var(--color-primary, #2563eb)',
-                secondary: 'var(--color-secondary, #4f46e5)',
-                background: 'var(--color-background, #ffffff)',
-                surface: 'var(--color-surface, #f9fafb)',
-                text: 'var(--color-text, #1f2937)',
-                accent: 'var(--color-accent, #3b82f6)',
-                error: 'var(--color-error, #ef4444)',
-                success: 'var(--color-success, #10b981)',
-                warning: 'var(--color-warning, #f59e0b)',
+                // Colores base con valores por defecto en formato RGB
+                primary: 'rgb(var(--color-primary) / <alpha-value>)',
+                secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+                accent: 'rgb(var(--color-accent) / <alpha-value>)',
+                background: 'rgb(var(--color-background) / <alpha-value>)',
+                surface: 'rgb(var(--color-surface) / <alpha-value>)',
+                text: 'rgb(var(--color-text) / <alpha-value>)',
+                border: 'rgb(var(--color-border) / <alpha-value>)',
+                error: 'rgb(var(--color-error) / <alpha-value>)',
+                success: 'rgb(var(--color-success) / <alpha-value>)',
+                warning: 'rgb(var(--color-warning) / <alpha-value>)',
+                
+                // Alias para compatibilidad
+                bg: 'rgb(var(--color-bg) / <alpha-value>)',
+                card: 'rgb(var(--color-card) / <alpha-value>)',
+                
+                // Colores para modo oscuro
+                dark: {
+                    primary: 'rgb(var(--color-primary-dark) / <alpha-value>)',
+                    secondary: 'rgb(var(--color-secondary-dark) / <alpha-value>)',
+                    background: 'rgb(var(--color-background-dark) / <alpha-value>)',
+                    surface: 'rgb(var(--color-surface-dark) / <alpha-value>)',
+                    text: 'rgb(var(--color-text-dark) / <alpha-value>)',
+                    border: 'rgb(var(--color-border-dark) / <alpha-value>)',
+                },
             },
             fontSize: {
                 base: 'var(--font-size-base, 1rem)',

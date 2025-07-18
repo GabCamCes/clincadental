@@ -23,9 +23,9 @@ const props = defineProps({
         No hay pagos registrados.
       </div>
 
-      <table v-else class="w-full bg-white rounded shadow mb-6">
+      <table v-else class="w-full bg-white dark:bg-slate-800 rounded shadow mb-6">
         <thead>
-          <tr class="bg-gray-100 text-left">
+          <tr class="bg-gray-100 dark:bg-slate-700 text-left">
             <th class="py-2 px-3">Fecha</th>
             <th class="py-2 px-3">Paciente</th>
             <th class="py-2 px-3">Venta</th>
@@ -63,9 +63,9 @@ const props = defineProps({
               >
                 Ver QR
               </Link>
-              <Link :href="route('pagos.edit', p.id)" class="text-blue-600 underline">Editar</Link>
+              <Link :href="route('pagos.edit', p.id)" class="btn btn-edit">Editar</Link>
               <form :action="route('pagos.destroy', p.id)" method="post" @submit.prevent="$inertia.delete(route('pagos.destroy', p.id))" class="inline">
-                <button type="submit" class="text-red-600 underline">Eliminar</button>
+                <button type="submit" class="btn btn-danger">Eliminar</button>
               </form>
             </td>
           </tr>

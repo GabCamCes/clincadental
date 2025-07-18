@@ -140,9 +140,28 @@ const setTheme = (theme) => {
 };
 
 const toggleDark = () => {
-  const newTheme = toggleDarkMode(currentTheme.value);
+  // Obtener el tema base sin el sufijo 'Noche'
+  const themeBase = currentTheme.value.endsWith('Noche')
+    ? currentTheme.value.replace('Noche', '')
+    : currentTheme.value;
+  
+  // Alternar el modo oscuro usando themeManager
+  toggleDarkMode(themeBase);
+  
+  // Actualizar el estado local
   isDarkMode.value = !isDarkMode.value;
+  
+  // Forzar actualización del tema
+  const newTheme = isDarkMode.value ? `${themeBase}Noche` : themeBase;
   currentTheme.value = newTheme;
+  
+  // Disparar evento personalizado para notificar a otros componentes
+  window.dispatchEvent(new CustomEvent('theme-changed', { 
+    detail: { 
+      theme: newTheme,
+      isDark: isDarkMode.value
+    } 
+  }));
 };
 
 const handleFontSizeChange = (direction) => {

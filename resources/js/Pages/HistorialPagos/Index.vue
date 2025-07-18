@@ -16,9 +16,9 @@ const props = defineProps({
   <div class="max-w-5xl mx-auto mt-10">
     <h1 class="text-2xl font-bold mb-4">Historial de Pagos</h1>
 
-    <table class="w-full bg-white rounded shadow mb-6">
+    <table class="w-full bg-white dark:bg-slate-800 rounded shadow mb-6">
       <thead>
-        <tr class="bg-gray-100 text-left">
+        <tr class="bg-gray-100 dark:bg-slate-700 text-left">
           <th class="py-2 px-3">Fecha</th>
           <th class="py-2 px-3">Pago</th>
           <th class="py-2 px-3">Usuario</th>

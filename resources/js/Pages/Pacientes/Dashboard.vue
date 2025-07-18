@@ -14,7 +14,7 @@ function logout() {
   <AuthenticatedLayout>
     <div class="max-w-5xl mx-auto mt-10 p-8 rounded shadow bg-white dark:bg-[#232323] text-black dark:text-white transition">
       <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold" :style="{ color: 'var(--color-primary)' }">Panel de Paciente</h1>
+        <h1 class="text-3xl font-bold text-primary dark:text-primary">Panel de Paciente</h1>
       </div>
       
       <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -25,4 +25,3 @@ function logout() {
     </div>
   </AuthenticatedLayout>
 </template>
-

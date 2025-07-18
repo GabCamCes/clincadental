@@ -17,31 +17,31 @@ function logout() {
 <template>
   <AuthenticatedLayout>
       <div class="mb-6 grid grid-cols-2 md:grid-cols-5 gap-4">
-      <div class="bg-blue-50 p-4 rounded-xl shadow text-center">
-        <div class="text-2xl font-bold text-blue-700">{{ props.estadisticas?.pacientes ?? 0 }}</div>
-        <div class="text-gray-700 text-sm">Pacientes</div>
+      <div class="card bg-primary/10 p-5 text-center hover:shadow-lg border-primary/30 transition-all duration-300">
+        <div class="text-3xl font-bold text-primary">{{ props.estadisticas?.pacientes ?? 0 }}</div>
+        <div class="text-text/80 text-sm font-medium mt-1">Pacientes</div>
       </div>
-      <div class="bg-green-50 p-4 rounded-xl shadow text-center">
-        <div class="text-2xl font-bold text-green-700">{{ props.estadisticas?.medicos ?? 0 }}</div>
-        <div class="text-gray-700 text-sm">Médicos</div>
+      <div class="card bg-secondary/10 p-5 text-center hover:shadow-lg border-secondary/30 transition-all duration-300">
+        <div class="text-3xl font-bold text-secondary">{{ props.estadisticas?.medicos ?? 0 }}</div>
+        <div class="text-text/80 text-sm font-medium mt-1">Médicos</div>
       </div>
-      <div class="bg-yellow-50 p-4 rounded-xl shadow text-center">
-        <div class="text-2xl font-bold text-yellow-700">{{ props.estadisticas?.citas ?? 0 }}</div>
-        <div class="text-gray-700 text-sm">Citas</div>
+      <div class="card bg-success/10 p-5 text-center hover:shadow-lg border-success/30 transition-all duration-300">
+        <div class="text-3xl font-bold text-success">{{ props.estadisticas?.citas ?? 0 }}</div>
+        <div class="text-text/80 text-sm font-medium mt-1">Citas</div>
       </div>
-      <div class="bg-purple-50 p-4 rounded-xl shadow text-center">
-        <div class="text-2xl font-bold text-purple-700">{{ props.estadisticas?.productos ?? 0 }}</div>
-        <div class="text-gray-700 text-sm">Productos</div>
+      <div class="card bg-accent/10 p-5 text-center hover:shadow-lg border-accent/30 transition-all duration-300">
+        <div class="text-3xl font-bold text-accent">{{ props.estadisticas?.productos ?? 0 }}</div>
+        <div class="text-text/80 text-sm font-medium mt-1">Productos</div>
       </div>
-      <div class="bg-pink-50 p-4 rounded-xl shadow text-center">
-        <div class="text-2xl font-bold text-pink-700">{{ props.estadisticas?.servicios ?? 0 }}</div>
-        <div class="text-gray-700 text-sm">Servicios</div>
+      <div class="card bg-warning/10 p-5 text-center hover:shadow-lg border-warning/30 transition-all duration-300">
+        <div class="text-3xl font-bold text-warning">{{ props.estadisticas?.servicios ?? 0 }}</div>
+        <div class="text-text/80 text-sm font-medium mt-1">Servicios</div>
       </div>
     </div>
-  <div class="max-w-5xl mx-auto mt-10 p-8 rounded shadow bg-white dark:bg-[#232323] text-black dark:text-white transition">
+  <div class="max-w-5xl mx-auto mt-10 p-8 rounded shadow card bg-surface text-text transition">
         
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold" :style="{ color: 'var(--color-primary)' }">Panel de Administración</h1>
+      <h1 class="text-3xl font-bold text-primary">Panel de Administración</h1>
       
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">

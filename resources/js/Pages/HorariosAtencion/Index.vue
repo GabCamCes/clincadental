@@ -75,9 +75,9 @@ const confirmarEliminar = (id) => {
             </Link>
         </div>
 
-        <table class="w-full bg-white rounded shadow">
+        <table class="w-full bg-white dark:bg-slate-800 rounded shadow">
             <thead>
-                <tr class="bg-gray-100 text-left">
+                <tr class="bg-gray-100 dark:bg-slate-700 text-left">
                     <th v-if="user.tipo_usuario === 'A'" class="py-2 px-3">Médico</th>
                     <th class="py-2 px-3">Día</th>
                     <th class="py-2 px-3">Hora inicio</th>
@@ -98,12 +98,12 @@ const confirmarEliminar = (id) => {
                         <div class="flex justify-center space-x-4">
                             <Link v-if="puedeEditar(horario)" 
                                   :href="route('horarios-atencion.edit', horario.id)" 
-                                  class="text-blue-600 hover:text-blue-800 hover:underline">
+                                  class="btn btn-edit">
                                 Editar
                             </Link>
                             <button v-if="puedeEditar(horario)" 
                                     @click="confirmarEliminar(horario.id)"
-                                    class="text-red-600 hover:text-red-800 hover:underline">
+                                    class="btn btn-danger">
                                 Eliminar
                             </button>
                             <span v-if="!puedeEditar(horario)" class="text-gray-400">No disponible</span>

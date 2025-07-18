@@ -74,5 +74,3 @@ const colores = [
   </div>
   </AuthenticatedLayout>
 </template>
-
-

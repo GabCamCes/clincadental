@@ -1,4 +1,11 @@
 <script setup>
+
+function translatePaginationLabel(label) {
+  if (!label) return '';
+  if (label.includes('Previous') || label === 'pagination.previous' || label.includes('«')) return 'Página anterior';
+  if (label.includes('Next') || label === 'pagination.next' || label.includes('»')) return 'Página siguiente';
+  return label.replace(/&laquo;|&raquo;/g, '').trim();
+}
 import { Link } from '@inertiajs/vue3'
 import BackToDashboard from '@/Components/BackToDashboard.vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
@@ -31,9 +38,9 @@ function rolLetra(valor) {
 
         <div v-if="usuarios && usuarios.data && usuarios.data.length === 0" class="p-4 text-gray-600">No hay usuarios registrados.</div>
 
-        <table v-else-if="usuarios && usuarios.data && usuarios.data.length > 0" class="w-full bg-white rounded shadow mb-6">
+        <table v-else-if="usuarios && usuarios.data && usuarios.data.length > 0" class="w-full bg-white dark:bg-slate-800 rounded shadow mb-6">
             <thead>
-                <tr class="bg-gray-100 text-left">
+                <tr class="bg-gray-100 dark:bg-slate-700 text-left">
                     <th class="py-2 px-3">CI</th>
                     <th class="py-2 px-3">Nombres</th>
                     <th class="py-2 px-3">Apellidos</th>
@@ -54,7 +61,7 @@ function rolLetra(valor) {
                     <td class="py-2 px-3">{{ generoLetra(usuario.genero) }}</td>
                     <td class="py-2 px-3">{{ rolLetra(usuario.tipo_usuario) }}</td>
                     <td class="py-2 px-3 text-center flex gap-2 justify-center">
-                        <Link v-if="typeof route === 'function'" :href="route('usuarios.edit', usuario.id)" class="text-blue-600 underline">Editar</Link>
+                        <Link v-if="typeof route === 'function'" :href="route('usuarios.edit', usuario.id)" class="btn btn-edit">Editar</Link>
 
                         <!-- Botón eliminar habilitado -->
                         <form
@@ -64,7 +71,7 @@ function rolLetra(valor) {
                             @submit.prevent="$inertia.delete(route('usuarios.destroy', usuario.id))"
                             class="inline"
                         >
-                            <button type="submit" class="text-red-600 underline" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">Eliminar</button>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">Eliminar</button>
                         </form>
                     </td>
                 </tr>
@@ -79,17 +86,17 @@ function rolLetra(valor) {
                     :href="link.url"
                     :class="[
                         'px-3 py-1 rounded',
-                        link.active ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-blue-100'
+                        link.active ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-200 hover:bg-blue-200 dark:hover:bg-slate-600'
                     ]"
-                    v-html="link.label"
+                    v-html="translatePaginationLabel(link.label)"
                 />
                 <span
                     v-else
                     :class="[
                         'px-3 py-1 rounded text-gray-400 select-none',
-                        link.active ? 'bg-blue-600 text-white' : 'bg-gray-100'
+                        link.active ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-slate-700 dark:text-gray-200'
                     ]"
-                    v-html="link.label"
+                    v-html="translatePaginationLabel(link.label)"
                 />
             </template>
         </div>

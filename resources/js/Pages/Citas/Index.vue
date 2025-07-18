@@ -25,9 +25,9 @@ function nombreCompleto(usuario) {
       >Nueva Cita</Link>
     </div>
 
-    <table class="w-full bg-white rounded shadow mb-6">
+    <table class="w-full bg-white dark:bg-slate-800 rounded shadow mb-6">
       <thead>
-        <tr class="bg-gray-100 text-left">
+        <tr class="bg-gray-100 dark:bg-slate-700 text-left">
           <th class="py-2 px-3" v-if="props.tipo_usuario !== 'P'">Paciente</th>
           <th class="py-2 px-3">Médico</th>
           <th class="py-2 px-3">Servicio</th>
@@ -50,9 +50,9 @@ function nombreCompleto(usuario) {
           <td class="py-2 px-3 text-center flex gap-2 justify-center">
             <!-- Solo ADMIN o MÉDICO pueden editar/eliminar, paciente no -->
             <template v-if="props.tipo_usuario === 'A' || props.tipo_usuario === 'M'">
-              <Link :href="route('citas.edit', cita.id)" class="text-blue-600 underline">Editar</Link>
+              <Link :href="route('citas.edit', cita.id)" class="btn btn-edit">Editar</Link>
               <form :action="route('citas.destroy', cita.id)" method="post" @submit.prevent="$inertia.delete(route('citas.destroy', cita.id))" class="inline">
-                <button type="submit" class="text-red-600 underline">Eliminar</button>
+                <button type="submit" class="btn btn-danger">Eliminar</button>
               </form>
             </template>
             <!-- Paciente no ve estas opciones -->

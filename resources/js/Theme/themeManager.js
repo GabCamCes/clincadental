@@ -3,15 +3,16 @@ const themes = {
     name: 'adultos-dia',
     label: 'Adultos (Día)',
     colors: {
-      primary: '#2563eb',
-      secondary: '#4f46e5',
-      background: '#ffffff',
-      surface: '#f9fafb',
-      text: '#1f2937',
-      accent: '#3b82f6',
-      error: '#ef4444',
-      success: '#10b981',
-      warning: '#f59e0b',
+      primary: '#00b8ff',      // Azul vibrante
+      secondary: '#00d1b2',    // Verde menta
+      accent: '#ff6384',       // Coral/rosado
+      background: '#f5faff',   // Blanco-azulado
+      surface: '#ffffff',      // Blanco puro
+      text: '#152440',         // Azul oscuro
+      border: '#00b8ff',       // Borde azul vibrante
+      error: '#ff4757',        // Rojo coral
+      success: '#00d1b2',      // Verde menta
+      warning: '#ffc300',      // Amarillo vivo
     },
     fontSize: '16px',
   },
@@ -93,8 +94,16 @@ const themes = {
 };
 
 export function getTheme(themeName) {
+  if (!themeName) return themes.adultos;
   const baseTheme = themeName.replace('Noche', '');
   return themes[themeName] || themes[baseTheme] || themes.adultos;
+}
+
+// Obtener el tema actual del documento
+export function getCurrentTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'adultos';
+  const isDark = localStorage.getItem('darkMode') === 'true';
+  return isDark ? `${savedTheme}Noche` : savedTheme;
 }
 
 export function applyTheme(themeName) {
@@ -182,10 +191,22 @@ export function loadTheme() {
 
 // Alternar entre día y noche
 export function toggleDarkMode(themeBase) {
-  const isDark = document.documentElement.getAttribute('data-theme')?.includes('noche');
+  const currentTheme = getCurrentTheme();
+  const isDark = currentTheme.endsWith('Noche');
   const newTheme = isDark ? themeBase : `${themeBase}Noche`;
+  
+  // Aplicar tema
   applyTheme(newTheme);
-  return newTheme;
+  
+  // Sincronizar con clase dark de Tailwind
+  if (isDark) {
+    document.documentElement.classList.remove('dark');
+  } else {
+    document.documentElement.classList.add('dark');
+  }
+  
+  localStorage.setItem('darkMode', (!isDark).toString());
+  localStorage.setItem('theme', themeBase);
 }
 
 // Cambiar tamaño de fuente

@@ -3,30 +3,303 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-/* Importar fuente Poppins */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+/* Estilos base */
+body {
+  @apply bg-background text-text font-sans transition-colors duration-300 dark:bg-gray-900;
+  font-family: 'Poppins', sans-serif;
+  color: inherit !important;
+}
 
-:root {
-  /* Variables de tema principales - Nombres compatibles con themeManager.js */
-  --color-primary: #0d9488;      /* Verde azulado profesional */
-  --color-secondary: #0891b2;    /* Azul turquesa */
-  --color-accent: #ec4899;       /* Rosa para elementos destacados */
-  --color-background: #f0fdfa;   /* Fondo claro */
-  --color-surface: #ffffff;      /* Superficie de tarjetas/paneles */
-  --color-text: #1e293b;         /* Color de texto principal */
-  --color-border: #e2e8f0;       /* Color de bordes */
-  --color-error: #ef4444;        /* Color para errores */
-  --color-success: #10b981;      /* Color para éxito */
-  --color-warning: #f59e0b;      /* Color para advertencias */
-  
-  /* Alias para compatibilidad */
-  --color-bg: var(--color-background);
-  --color-card: var(--color-surface);
-  --color-dental-primary: var(--color-primary);
-  --color-dental-secondary: var(--color-secondary);
-  --color-dental-accent: var(--color-accent);
-  --color-dental-light: var(--color-background);
-  --color-dental-dark: #0f172a;
+/* Asegurar que el texto sea visible en modo oscuro */
+body, p, div, span, td, th, label, input, textarea, select, button {
+  @apply text-gray-800 dark:text-gray-200;
+  color: inherit !important;
+}
+
+a {
+  @apply text-primary hover:underline dark:text-primary dark:hover:opacity-80;
+  color: inherit !important;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Tipografía */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-semibold text-gray-900 dark:text-white;
+}
+
+h1 { @apply text-3xl md:text-4xl; }
+h2 { @apply text-2xl md:text-3xl; }
+h3 { @apply text-xl md:text-2xl; }
+
+/* Componentes */
+.card {
+  @apply bg-surface text-text rounded-xl shadow-md overflow-hidden transition-all duration-300 border border-border;
+}
+
+.card:hover {
+  @apply shadow-lg;
+}
+
+/* Barra de navegación */
+.navbar {
+  @apply bg-white shadow-sm border-b border-gray-100 transition-colors duration-300;
+  background-color: rgb(var(--color-surface));
+  border-color: rgb(var(--color-border) / 0.8);
+}
+
+.navbar .nav-link {
+  @apply text-gray-700 hover:text-primary transition-colors duration-200 font-medium;
+}
+
+.navbar .nav-link.active {
+  @apply text-primary font-semibold;
+}
+
+/* Modo oscuro para la barra de navegación */
+.dark .navbar {
+  background-color: rgb(var(--color-surface-dark));
+  border-color: rgb(var(--color-border-dark) / 0.8);
+}
+
+.dark .navbar .nav-link {
+  @apply text-gray-300 hover:text-primary/80;
+}
+
+.dark .navbar .nav-link.active {
+  @apply text-primary/90 font-semibold;
+}
+
+/* Botones llamativos */
+.btn {
+  @apply px-6 py-2.5 rounded-xl font-semibold shadow-md text-base tracking-wide transition-all duration-200;
+}
+
+[data-theme*="jovenes"] .btn-edit,
+[data-theme*="ninos"] .btn-edit,
+[data-theme*="adultos"] .btn-edit,
+.btn-edit {
+  background: linear-gradient(90deg, #00d1b2 0%, #10b981 100%) !important; /* Verde menta a verde éxito */
+  color: #fff !important;
+  border: none;
+  box-shadow: 0 2px 16px 0 rgba(16,185,129,0.10);
+  letter-spacing: 0.03em;
+}
+.btn-edit:hover {
+  filter: brightness(1.08) saturate(1.2);
+  box-shadow: 0 4px 24px 0 rgba(16,185,129,0.16);
+}
+
+.btn-accent {
+  background: linear-gradient(90deg, rgb(var(--color-accent)) 0%, rgb(var(--color-secondary)) 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 16px 0 rgba(255,99,132,0.10);
+  letter-spacing: 0.03em;
+}
+.btn-accent:hover {
+  filter: brightness(1.08) saturate(1.2);
+  box-shadow: 0 4px 24px 0 rgba(255,99,132,0.16);
+}
+
+.btn-danger {
+  background: linear-gradient(90deg, #ff4757 0%, #ff6384 100%) !important;
+  color: #fff !important;
+  border: none;
+  box-shadow: 0 2px 16px 0 rgba(255,71,87,0.10);
+  letter-spacing: 0.03em;
+}
+.btn-danger:hover {
+  filter: brightness(1.08) saturate(1.2);
+  box-shadow: 0 4px 24px 0 rgba(255,71,87,0.16);
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, rgb(var(--color-primary)) 0%, rgb(var(--color-secondary)) 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 16px 0 rgba(0,184,255,0.10);
+  letter-spacing: 0.03em;
+}
+.btn-primary:hover {
+  filter: brightness(1.08) saturate(1.2);
+  box-shadow: 0 4px 24px 0 rgba(0,184,255,0.16);
+}
+
+.btn-secondary {
+  background: #fff;
+  color: rgb(var(--color-primary));
+  border: 2px solid rgb(var(--color-primary));
+  box-shadow: 0 2px 10px 0 rgba(0,184,255,0.07);
+}
+.btn-secondary:hover {
+  background: rgba(0,184,255,0.08);
+  color: rgb(var(--color-accent));
+  border-color: rgb(var(--color-accent));
+}
+
+/* Tarjetas modernas */
+.card {
+  @apply rounded-2xl shadow border-2 overflow-hidden transition-all duration-300;
+  background: linear-gradient(135deg, #fff 70%, rgba(0,184,255,0.07) 100%);
+  border-color: rgb(var(--color-primary));
+  box-shadow: 0 4px 20px 0 rgba(0,184,255,0.10);
+}
+.card:hover {
+  border-color: rgb(var(--color-accent));
+  box-shadow: 0 8px 32px 0 rgba(255,99,132,0.13);
+}
+
+/* Barra de navegación llamativa */
+.navbar {
+  background: linear-gradient(90deg, rgb(var(--color-primary)) 0%, rgb(var(--color-secondary)) 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 12px 0 rgba(0,184,255,0.08);
+}
+.navbar .nav-link {
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 0.2s, border-bottom 0.2s;
+  border-bottom: 2px solid transparent;
+}
+.navbar .nav-link:hover {
+  color: rgb(var(--color-accent));
+  border-bottom: 2px solid rgb(var(--color-accent));
+}
+.navbar .nav-link.active {
+  color: rgb(var(--color-accent));
+  border-bottom: 2px solid rgb(var(--color-accent));
+  font-weight: 700;
+}
+
+/* Solo modo claro: inputs y tablas */
+input, textarea, select {
+  border: 2px solid rgb(var(--color-primary));
+  background: #fff;
+  color: rgb(var(--color-text));
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 8px 0 rgba(0,184,255,0.07);
+  transition: border-color 0.2s;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: rgb(var(--color-accent));
+  outline: none;
+}
+
+table th {
+  background: rgb(var(--color-primary), 0.10);
+  color: rgb(var(--color-primary));
+  font-weight: 600;
+}
+table td {
+  background: #fff;
+  color: rgb(var(--color-text));
+}
+
+/* Modo oscuro para tablas */
+.dark table {
+  background-color: var(--color-card);
+  color: var(--color-text-dark);
+}
+.dark thead {
+  background-color: var(--color-surface-dark) !important;
+}
+
+.dark th {
+  background-color: var(--color-surface-dark) !important;
+  color: var(--color-text-dark) !important;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.10);
+  /* Si alguna clase de Tailwind fuerza bg-white, esto lo sobrescribe */
+}
+
+.dark td {
+  background-color: var(--color-card);
+  color: var(--color-text-dark);
+}
+.dark tbody tr:hover {
+  background-color: #232e41;
+}
+
+
+
+/* Indicadores de estado */
+.availability-badge {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.available {
+  @apply bg-green-100 text-green-800 dark:bg-green-900/10 dark:text-green-400;
+}
+
+.unavailable {
+  @apply bg-red-100 text-red-800 dark:bg-red-900/10 dark:text-red-400;
+}
+
+/* Formularios */
+.form-input {
+  @apply w-full px-4 py-2 border rounded-lg bg-surface text-text transition-colors;
+  border-color: var(--color-border);
+}
+
+.form-input:focus {
+  @apply outline-none ring-2 ring-primary/20;
+  border-color: var(--color-primary);
+}
+
+.form-label {
+  @apply block text-sm font-medium text-text mb-1;
+}
+
+/* Mejoras de accesibilidad */
+:focus-visible {
+  @apply outline-none ring-2 ring-primary/20;
+}
+
+.sr-only {
+  @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+  clip: rect(0, 0, 0, 0);
+}
+
+/* Modo alto contraste */
+.contraste-alto {
+  @apply bg-black text-white !important;
+}
+
+.contraste-alto a,
+.contraste-alto h1,
+.contraste-alto h2,
+.contraste-alto h3,
+.contraste-alto h4,
+.contraste-alto h5,
+.contraste-alto h6,
+.contraste-alto label {
+  @apply text-yellow-300 !important;
+}
+
+.contraste-alto button,
+.contraste-alto input,
+.contraste-alto select,
+.contraste-alto textarea {
+  @apply bg-gray-900 text-white border-2 border-white !important;
+}
+
+/* Efectos visuales */
+.transition-theme {
+  @apply transition-colors duration-300 ease-in-out;
+}
+
+.shadow-dental {
+  box-shadow: 0 4px 20px -5px rgba(13, 148, 136, 0.15);
+}
+
+.interactive-card {
+  @apply transition-transform duration-300;
+}
+
+.interactive-card:hover {
+  @apply -translate-y-1;
 }
 
 /* Temas alternativos */

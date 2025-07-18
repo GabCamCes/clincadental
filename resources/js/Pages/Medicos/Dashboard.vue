@@ -14,12 +14,12 @@ function logout() {
   <AuthenticatedLayout>
     <div class="max-w-5xl mx-auto mt-10 p-8 rounded shadow bg-white dark:bg-[#232323] text-black dark:text-white transition">
       <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold" :style="{ color: 'var(--color-primary)' }">Panel de Médico</h1>
+        <h1 class="text-3xl font-bold text-primary dark:text-primary">Panel de Médico</h1>
       </div>
       
       <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
         <DashboardCard to="/citas" label="Gestionar Citas" />
-        <DashboardCard to="/historial-clinico" label="Historial Clínico" />
+        <DashboardCard to="/historial-clinico" label="Historial Arte Dental" />
         <DashboardCard :to="route('medico.horarios.index')" label="Mis Horarios" />
       </div>
     </div>

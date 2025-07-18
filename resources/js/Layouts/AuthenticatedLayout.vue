@@ -24,7 +24,7 @@ function logout() {
 <template>
   <div class="min-h-screen flex flex-col bg-background text-text transition-theme">
     <!-- Barra superior -->
-    <nav class="flex items-center px-6 py-4 border-b shadow bg-surface text-text transition-theme">
+    <nav class="flex items-center px-6 py-4 border-b shadow bg-surface text-text transition-theme dark:bg-surface-dark dark:border-dark-border">
       <!-- Logo a la izquierda -->
       <Link 
         :href="$page.props.auth.user?.tipo_usuario === 'A' ? route('usuario.dashboard') : 
@@ -33,7 +33,7 @@ function logout() {
         class="mr-8 text-2xl font-bold hover:opacity-80 whitespace-nowrap transition-opacity" 
         :style="{ color: 'var(--color-primary)' }"
       >
-        Clínica Dental
+        Arte Dental
       </Link>
       
       <!-- Menú dinámico (centro/izquierda) -->
@@ -50,7 +50,7 @@ function logout() {
       </div>
       
       <!-- Búsqueda y controles (derecha) -->
-      <div class="flex items-center gap-4 ml-auto">
+      <div class="flex items-center gap-4 text-text dark:text-text-dark ml-auto">
         <!-- Selector de temas -->
         <ThemeSelector class="theme-selector" />
         
@@ -100,7 +100,7 @@ function logout() {
       <div class="container mx-auto px-4">
         <div class="flex flex-col md:flex-row justify-between items-center text-sm text-text/80">
           <div class="mb-2 md:mb-0">
-            &copy; {{ new Date().getFullYear() }} Clínica Dental. Todos los derechos reservados.
+            &copy; {{ new Date().getFullYear() }} Grupo 25. Todos los derechos reservados.
           </div>
           <div class="flex items-center
           ">

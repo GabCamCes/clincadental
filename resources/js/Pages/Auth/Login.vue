@@ -28,21 +28,21 @@ function submit() {
 <template>
     <Head title="Iniciar sesión" />
 
-    <div class="w-full max-w-md mx-auto mt-12 bg-white shadow-lg rounded px-8 py-6">
-        <h2 class="text-2xl mb-6 text-center font-bold">Iniciar sesión</h2>
+    <div class="w-full max-w-md mx-auto mt-12 bg-white dark:bg-slate-800 shadow-lg rounded px-8 py-6">
+        <h2 class="text-2xl mb-6 text-center font-bold text-blue-700 dark:text-blue-300">Iniciar sesión</h2>
 
-        <div v-if="status" class="mb-4 text-sm text-green-600">
+        <div v-if="status" class="mb-4 text-sm text-green-600 dark:text-green-400">
             {{ status }}
         </div>
 
         <form @submit.prevent="submit" autocomplete="off">
             <div class="mb-4">
-                <label for="correo" class="block mb-1">Correo</label>
+                <label for="correo" class="block mb-1 text-gray-700 dark:text-gray-200">Correo</label>
                 <input
                     id="correo"
                     v-model="form.correo"
                     type="email"
-                    class="w-full border px-3 py-2 rounded"
+                    class="w-full border px-3 py-2 rounded bg-white dark:bg-slate-900 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100"
                     required
                     autofocus
                     autocomplete="username"
@@ -50,12 +50,12 @@ function submit() {
                 <div v-if="form.errors.correo" class="text-red-500 text-sm mt-1">{{ form.errors.correo }}</div>
             </div>
             <div class="mb-4">
-                <label for="password" class="block mb-1">Contraseña</label>
+                <label for="password" class="block mb-1 text-gray-700 dark:text-gray-200">Contraseña</label>
                 <input
                     id="password"
                     v-model="form.password"
                     type="password"
-                    class="w-full border px-3 py-2 rounded"
+                    class="w-full border px-3 py-2 rounded bg-white dark:bg-slate-900 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100"
                     required
                     autocomplete="current-password"
                 />
@@ -68,7 +68,7 @@ function submit() {
                     v-model="form.remember"
                     class="mr-2"
                 />
-                <label for="remember" class="text-sm">Recordarme</label>
+                <label for="remember" class="text-sm text-gray-700 dark:text-gray-200">Recordarme</label>
             </div>
             <div class="flex items-center justify-between">
                 <button
