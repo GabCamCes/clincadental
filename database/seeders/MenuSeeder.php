@@ -28,6 +28,7 @@ class MenuSeeder extends Seeder
             // Paciente
             ['nombre' => 'Mis Citas',         'ruta' => '/citas',             'rol' => 'P', 'orden' => 1],
             ['nombre' => 'Mi Historial',      'ruta' => '/historial-clinico', 'rol' => 'P', 'orden' => 2],
+            ['nombre' => 'Mis Pagos',         'ruta' => '/pagos',            'rol' => 'P', 'orden' => 3],
         ]);
     }
 }

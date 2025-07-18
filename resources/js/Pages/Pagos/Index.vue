@@ -1,11 +1,13 @@
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
 import BackToDashboard from '@/Components/BackToDashboard.vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 
 const props = defineProps({
   pagos: Object
 })
+
+const user = usePage().props.auth.user
 </script>
 
 <template>
@@ -14,7 +16,11 @@ const props = defineProps({
     <div class="max-w-5xl mx-auto mt-10">
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Pagos</h1>
-        <Link :href="route('pagos.create')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+        <Link
+          v-if="user.tipo_usuario === 'A'"
+          :href="route('pagos.create')"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+        >
           Nuevo Pago
         </Link>
       </div>
@@ -63,8 +69,18 @@ const props = defineProps({
               >
                 Ver QR
               </Link>
-              <Link :href="route('pagos.edit', p.id)" class="btn btn-edit">Editar</Link>
-              <form :action="route('pagos.destroy', p.id)" method="post" @submit.prevent="$inertia.delete(route('pagos.destroy', p.id))" class="inline">
+              <Link
+                v-if="user.tipo_usuario === 'A'"
+                :href="route('pagos.edit', p.id)"
+                class="btn btn-edit"
+              >Editar</Link>
+              <form
+                v-if="user.tipo_usuario === 'A'"
+                :action="route('pagos.destroy', p.id)"
+                method="post"
+                @submit.prevent="$inertia.delete(route('pagos.destroy', p.id))"
+                class="inline"
+              >
                 <button type="submit" class="btn btn-danger">Eliminar</button>
               </form>
             </td>
